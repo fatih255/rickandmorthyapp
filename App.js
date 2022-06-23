@@ -1,20 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './Screens/HomeScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { CardProvider } from './CardContext';
+
+const Stack = createNativeStackNavigator();
+
+const RickAndMortyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#e9f5f5',
+    text: 'black',
+    title: '#282726',
+    notification: '#0E7C7B',
+    primary: '#17BEBB',
+    smokeGray: '#404040',
+    backgroundPrimary: '#92F2F0',
+  },
+  styles: {
+    title: {
+      //marginLeft: 15,
+      marginBottom: 11,
+      fontSize: 31,
+      fontWeight: '500',
+    },
+    standartTopPadding: {
+      paddingTop: 35
+    }
+  }
+};
+
+
+function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <CardProvider>
+      <NavigationContainer theme={RickAndMortyTheme} >
+        <StatusBar backgroundColor={RickAndMortyTheme.colors.primary} style="light" />
+        <SafeAreaView style={{ flex: 1 }}>
+          <Stack.Navigator screenOptions={{ headerShown: false }} >
+            <Stack.Screen name="Home" component={HomeScreen} />
+          </Stack.Navigator>
+        </SafeAreaView>
+      </NavigationContainer>
+    </CardProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
